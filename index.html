@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JVM 2026 Registration</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f4f7fb;
+margin:0;
+padding:0;
+}
+
+.wrap{
+max-width:900px;
+margin:auto;
+padding:30px;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+}
+
+.step{
+display:none;
+}
+
+.step.active{
+display:block;
+}
+
+input,select,textarea{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:1px solid #ddd;
+margin-top:5px;
+margin-bottom:15px;
+}
+
+.actions{
+display:flex;
+justify-content:space-between;
+margin-top:20px;
+}
+
+button{
+padding:12px 20px;
+border:none;
+border-radius:10px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.next{
+background:#2563eb;
+color:white;
+}
+
+.prev{
+background:#e5e7eb;
+}
+
+.submit{
+background:#16a34a;
+color:white;
+}
+
+.progress{
+display:flex;
+margin-bottom:25px;
+gap:10px;
+}
+
+.bar{
+flex:1;
+height:8px;
+background:#ddd;
+border-radius:20px;
+}
+
+.bar.active{
+background:#2563eb;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="card">
+
+<h2>Jakarta Velocity Marathon 2026</h2>
+
+<div class="progress">
+<div class="bar active"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+<div class="bar"></div>
+</div>
+
+<form id="regForm">
+
+<!-- STEP 1 -->
+<div class="step active">
+
+<h3>Personal Information</h3>
+
+<label>Full Name</label>
+<input type="text" required>
+
+<label>WhatsApp Number</label>
+<input type="tel" required>
+
+<label>Email</label>
+<input type="email" required>
+
+<label>Date of Birth</label>
+<input type="date" required>
+
+<label>Gender</label>
+<select required>
+<option value="">Choose</option>
+<option>Male</option>
+<option>Female</option>
+</select>
+
+</div>
+
+
+<!-- STEP 2 -->
+<div class="step">
+
+<h3>Race Category</h3>
+
+<label>
+<input type="radio" name="race" required>
+5K Fun Run - Rp250.000
+</label>
+
+<br><br>
+
+<label>
+<input type="radio" name="race">
+10K - Rp350.000
+</label>
+
+<br><br>
+
+<label>
+<input type="radio" name="race">
+Full Marathon - Rp500.000
+</label>
+
+<br><br>
+
+<label>Shirt Size</label>
+<select required>
+<option value="">Choose</option>
+<option>S</option>
+<option>M</option>
+<option>L</option>
+<option>XL</option>
+</select>
+
+</div>
+
+
+<!-- STEP 3 -->
+<div class="step">
+
+<h3>Emergency Contact</h3>
+
+<label>Emergency Name</label>
+<input type="text" required>
+
+<label>Emergency Phone</label>
+<input type="tel" required>
+
+<label>Blood Type</label>
+<select required>
+<option value="">Choose</option>
+<option>A</option>
+<option>B</option>
+<option>AB</option>
+<option>O</option>
+</select>
+
+<label>Medical History</label>
+<textarea></textarea>
+
+</div>
+
+
+<!-- STEP 4 -->
+<div class="step">
+
+<h3>Payment</h3>
+
+<p>Silakan lakukan pembayaran ke QRIS berikut:</p>
+
+<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=PAYMENT" width="200">
+
+<p>Upload bukti pembayaran:</p>
+
+<input type="file" required>
+
+</div>
+
+
+<div class="actions">
+
+<button type="button" class="prev" id="prevBtn">Kembali</button>
+
+<button type="button" class="next" id="nextBtn">Berikutnya</button>
+
+</div>
+
+</form>
+
+</div>
+</div>
+
+
+<script>
+
+let currentStep = 0;
+
+const steps = document.querySelectorAll(".step")
+const bars = document.querySelectorAll(".bar")
+
+const nextBtn = document.getElementById("nextBtn")
+const prevBtn = document.getElementById("prevBtn")
+
+function showStep(n){
+
+steps.forEach((step,i)=>{
+step.classList.remove("active")
+if(i==n){
+step.classList.add("active")
+}
+})
+
+bars.forEach((bar,i)=>{
+bar.classList.remove("active")
+if(i<=n){
+bar.classList.add("active")
+}
+})
+
+prevBtn.style.display = n==0 ? "none" : "inline-block"
+
+if(n==steps.length-1){
+nextBtn.textContent="Submit"
+nextBtn.classList.remove("next")
+nextBtn.classList.add("submit")
+}else{
+nextBtn.textContent="Berikutnya"
+}
+
+}
+
+nextBtn.addEventListener("click",function(){
+
+if(currentStep < steps.length-1){
+
+currentStep++
+
+showStep(currentStep)
+
+}else{
+
+document.getElementById("regForm").submit()
+
+}
+
+})
+
+prevBtn.addEventListener("click",function(){
+
+if(currentStep>0){
+
+currentStep--
+
+showStep(currentStep)
+
+}
+
+})
+
+showStep(currentStep)
+
+</script>
+
+</body>
+</html>
